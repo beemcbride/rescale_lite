@@ -37,11 +37,13 @@
                 <%= ingredient.notes %>
               </td>
               <td class="px-3 py-4 text-sm text-gray-700">
-                <!-- insert "add question" button here for coman users -->
+                <%= render ButtonComponent.new(label: "Ask question", url: new_ingredient_question_and_answer_path(ingredient)) unless get_current_user.is_brand? %>
               </td>
             </tr>
 
-            <!-- insert q & a rows here -->
+            <% ingredient.question_and_answers.order(answer: :desc).each do |q_a| %>
+                  <%= render QAndAComponent.new(question_and_answer: q_a, is_brand: get_current_user.is_brand?)%>
+            <% end %>
           <% end %>
         </tbody>
       </table>
